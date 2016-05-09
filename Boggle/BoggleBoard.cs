@@ -23,7 +23,7 @@ namespace Boggle
                     if (x + dx >= m_BoardSize || y + dy >= m_BoardSize || x + dx < 0 || y + dy < 0)
                         continue;
 
-                    yield return new BoggleGridEntry {X = x + dx, Y = y + dy, Letter = GetEntry(x + dx, y + dy)};
+                    yield return new BoggleGridEntry(x + dx, y + dy, GetEntry(x + dx, y + dy));
                 }
             }
         }
@@ -35,12 +35,7 @@ namespace Boggle
                 for (var y = 0; y < m_BoardSize; y++)
                 {
                     var letterAtPosition = GetEntry(x, y);
-                    yield return new BoggleGridEntry()
-                    {
-                        X = x,
-                        Y = y,
-                        Letter = letterAtPosition
-                    };
+                    yield return new BoggleGridEntry(x, y, letterAtPosition);
                 }
             }
         }

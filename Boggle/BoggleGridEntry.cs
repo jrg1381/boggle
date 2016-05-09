@@ -2,9 +2,16 @@ namespace Boggle
 {
     internal struct BoggleGridEntry
     {
-        internal int X { get; set; }
-        internal int Y { get; set; }
-        internal char Letter { get; set; }
+        internal int X { get; }
+        internal int Y { get; }
+        internal char Letter { get; }
+
+        internal BoggleGridEntry(int x, int y, char letter)
+        {
+            X = x;
+            Y = y;
+            Letter = letter;
+        }
 
         public override string ToString()
         {
