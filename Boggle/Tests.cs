@@ -8,7 +8,7 @@ namespace Boggle
     public class Tests
     {
         [Test]
-        public void ConstructAndInitializeWordTree()
+        public void WordTreeWithCommonPrefixEntries()
         {
             var wordTree = WordTree.InitializeFrom(new [] { "this", "that", "other" });
             CollectionAssert.AreEquivalent(new[] { 'i', 'a' },wordTree.ValidNextLettersForPrefix("th"));
@@ -16,56 +16,58 @@ namespace Boggle
         }
 
         [Test]
-        public void ConstructAndInitializeWordTree2()
+        public void WordTreeWithMaximalLengthCommonPrefix()
         {
             var wordTree = WordTree.InitializeFrom(new[] { "mope","mop" });
             CollectionAssert.AreEquivalent(new[] { 'e', }, wordTree.ValidNextLettersForPrefix("mop"));
         }
 
         [Test]
-        public void ConstructBoard()
+        public void NeighboursOfTopLeftAreCorrect()
         {
             var boggleBoard = new BoggleBoard(4, new MockRandomCharacterGenerator());
-            var neighbours = boggleBoard.NeighboursOf(new BoggleGridEntry { X = 0, Y = 0});
-            CollectionAssert.AreEquivalent(new[] {
-                new BoggleGridEntry {X = 0, Y = 1, Letter = 'b'},
-                new BoggleGridEntry {X = 1, Y = 0, Letter = 'e'},
-                new BoggleGridEntry {X = 1, Y = 1, Letter = 'f'}
- }, neighbours);
-        }
-
-        [Test]
-        public void ConstructBoard2()
-        {
-            var boggleBoard = new BoggleBoard(4, new MockRandomCharacterGenerator());
-            var neighbours = boggleBoard.NeighboursOf(new BoggleGridEntry { X = 3, Y = 3 });
-            CollectionAssert.AreEquivalent(new[] {
-                new BoggleGridEntry {X = 2, Y = 2, Letter = 'k'},
-                new BoggleGridEntry {X = 2, Y = 3, Letter = 'l'},
-                new BoggleGridEntry {X = 3, Y = 2, Letter = 'o'}
- }, neighbours);
-        }
-
-        [Test]
-        public void ConstructBoard3()
-        {
-            var boggleBoard = new BoggleBoard(4, new MockRandomCharacterGenerator());
-            var neighbours = boggleBoard.NeighboursOf(new BoggleGridEntry { X = 2, Y = 2 });
+            var neighbours = boggleBoard.NeighboursOf(new BoggleGridEntry(0,0));
             CollectionAssert.AreEquivalent(new[]
             {
-                new BoggleGridEntry {X = 1, Y = 1, Letter = 'f'},
-                new BoggleGridEntry {X = 1, Y = 2, Letter = 'g'},
-                new BoggleGridEntry {X = 1, Y = 3, Letter = 'h'},
-                new BoggleGridEntry {X = 2, Y = 1, Letter = 'j'},
-                new BoggleGridEntry {X = 2, Y = 3, Letter = 'l'},
-                new BoggleGridEntry {X = 3, Y = 1, Letter = 'n'},
-                new BoggleGridEntry {X = 3, Y = 2, Letter = 'o'},
-                new BoggleGridEntry {X = 3, Y = 3, Letter = 'p'},
+                new BoggleGridEntry(0, 1, 'b'),
+                new BoggleGridEntry(1, 0, 'e'),
+                new BoggleGridEntry(1, 1, 'f')
             }, neighbours);
         }
 
         [Test]
-        public void RealDictionary()
+        public void NeighboursOfBottomRightAreCorrect()
+        {
+            var boggleBoard = new BoggleBoard(4, new MockRandomCharacterGenerator());
+            var neighbours = boggleBoard.NeighboursOf(new BoggleGridEntry(3,3));
+            CollectionAssert.AreEquivalent(new[]
+            {
+                new BoggleGridEntry(2, 2, 'k'),
+                new BoggleGridEntry(2, 3, 'l'),
+                new BoggleGridEntry(3, 2, 'o')
+            }, neighbours);
+        }
+
+        [Test]
+        public void NeighboursOfACentralSquareAreCorrect()
+        {
+            var boggleBoard = new BoggleBoard(4, new MockRandomCharacterGenerator());
+            var neighbours = boggleBoard.NeighboursOf(new BoggleGridEntry(2,2));
+            CollectionAssert.AreEquivalent(new[]
+            {
+                 new BoggleGridEntry(1, 1, 'f'),
+                 new BoggleGridEntry(1, 2, 'g'),
+                 new BoggleGridEntry(1, 3, 'h'),
+                 new BoggleGridEntry(2, 1, 'j'),
+                 new BoggleGridEntry(2, 3, 'l'),
+                 new BoggleGridEntry(3, 1, 'n'),
+                 new BoggleGridEntry(3, 2, 'o'),
+                 new BoggleGridEntry(3, 3, 'p'),
+            }, neighbours);
+        }
+
+        [Test]
+        public void InitializeWordTreeFromRealDictionary()
         {
             var wordTree = WordTree.InitializeFromDefaultWordList();
             CollectionAssert.AreEquivalent(new[] { 's' }, wordTree.ValidNextLettersForPrefix("thing"));
@@ -74,7 +76,7 @@ namespace Boggle
         [Test]
         public void Solve()
         {
-            var board = new BoggleBoard(50);
+            var board = new BoggleBoard(12);
             var boggleSolver = new BoggleBoardSolver(board);
             var solutions = boggleSolver.Solutions().OrderByDescending(x => x.Length);
             Console.WriteLine(board.ToString());
@@ -91,14 +93,14 @@ namespace Boggle
             CollectionAssert.AreEquivalent(new[] { "to"}, solutions, "Wrong words found in search");
         }
 
-        // xhak
-        // bfnc
-        // erqn
-        // bnus
-
         [Test]
-        public void NoBacktrackingOverUsedLettersLongerExample()
+        public void NoBacktrackingOverUsedLettersMoreThanOneStepBack()
         {
+            // xhak
+            // bfnc
+            // erqn
+            // bnus
+            //
             // backtracking would find the word 'unsure'. This is impossible because 'unsure' contains two 'u's
             // and the input data only contains one
             var board = new BoggleBoard(4, new CharactersFromStringGenerator("xhakbfncerqnbnus"));

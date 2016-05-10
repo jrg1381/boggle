@@ -18,14 +18,20 @@ namespace Boggle
             {
                 for (var dy = -1; dy <= 1; dy++)
                 {
-                    if (dx == 0 && dy == 0)
-                        continue;
-                    if (x + dx >= m_BoardSize || y + dy >= m_BoardSize || x + dx < 0 || y + dy < 0)
-                        continue;
-
+                    if (SquareIsOutOfRange(dx, dy, x, y)) continue;
                     yield return new BoggleGridEntry(x + dx, y + dy, GetEntry(x + dx, y + dy));
                 }
             }
+        }
+
+        private bool SquareIsOutOfRange(int dx, int dy, int x, int y)
+        {
+            if (dx == 0 && dy == 0)
+                return true;
+            if (x + dx >= m_BoardSize || y + dy >= m_BoardSize || x + dx < 0 || y + dy < 0)
+                return true;
+
+            return false;
         }
 
         internal IEnumerable<BoggleGridEntry> Entries()
@@ -40,7 +46,7 @@ namespace Boggle
             }
         }
 
-        internal char GetEntry(int x, int y)
+        private char GetEntry(int x, int y)
         {
             return m_Board[x, y];
         }

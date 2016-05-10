@@ -6,7 +6,7 @@ namespace Boggle
         internal int Y { get; }
         internal char Letter { get; }
 
-        internal BoggleGridEntry(int x, int y, char letter)
+        internal BoggleGridEntry(int x, int y, char letter = '\0')
         {
             X = x;
             Y = y;
