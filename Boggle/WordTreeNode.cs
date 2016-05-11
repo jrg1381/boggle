@@ -57,8 +57,6 @@ namespace Boggle
             currentNode.AddLetterToChildren('\0');
         }
 
-        internal bool Winner { get; set; }
-
         private WordTreeNode AddLetterToChildren(char letter)
         {
             WordTreeNode existingNode;
