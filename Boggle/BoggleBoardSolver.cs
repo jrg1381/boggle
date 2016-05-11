@@ -3,11 +3,16 @@ using System.Linq;
 
 namespace Boggle
 {
-    internal class BoggleBoardSolver
+    public class BoggleBoardSolver
     {
         private List<string> m_WordsFound;
         private readonly WordTree m_WordTree;
         private readonly BoggleBoard m_BoggleBoard;
+        private static readonly BoggleGridEntry[] s_EndOfWord = { BoggleGridEntry.EndOfWord };
+
+        public BoggleBoardSolver(IList<char> letters) : this(new BoggleBoard(letters))
+        {
+        }
 
         internal BoggleBoardSolver(BoggleBoard boggleBoard = null, WordTree wordTree = null)
         {
@@ -41,17 +46,21 @@ namespace Boggle
 
             var possiblePaths =
                 m_BoggleBoard.NeighboursOf(gridEntry)
+                    .Concat(s_EndOfWord)
                     .Where(entry => validNextLetters.Contains(entry.Letter) && !squaresVisited.Contains(entry))
                     .ToArray();
 
-            if (m_WordTree.IsWord(wordSoFar))
-            {
-                m_WordsFound.Add(wordSoFar);
-            }
-
             foreach (var nextStep in possiblePaths)
             {
-                squaresVisited.Add(gridEntry);
+                if (Equals(nextStep, BoggleGridEntry.EndOfWord))
+                {
+                    m_WordsFound.Add(wordSoFar);
+                }
+                else
+                {
+                    squaresVisited.Add(gridEntry);
+                }
+
                 Solve(nextStep, wordSoFar + nextStep.Letter, squaresVisited);
             }
 

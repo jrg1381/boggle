@@ -19,7 +19,7 @@ namespace Boggle
         public void WordTreeWithMaximalLengthCommonPrefix()
         {
             var wordTree = WordTree.InitializeFrom(new[] { "mope","mop" });
-            CollectionAssert.AreEquivalent(new[] { 'e', }, wordTree.ValidNextLettersForPrefix("mop"));
+            CollectionAssert.AreEquivalent(new[] { '\0', 'e', }, wordTree.ValidNextLettersForPrefix("mop"));
         }
 
         [Test]
@@ -70,7 +70,7 @@ namespace Boggle
         public void InitializeWordTreeFromRealDictionary()
         {
             var wordTree = WordTree.InitializeFromDefaultWordList();
-            CollectionAssert.AreEquivalent(new[] { 's' }, wordTree.ValidNextLettersForPrefix("thing"));
+            CollectionAssert.AreEquivalent(new[] { '\0', 's' }, wordTree.ValidNextLettersForPrefix("thing"));
         }
 
         [Test]
@@ -80,14 +80,14 @@ namespace Boggle
             var boggleSolver = new BoggleBoardSolver(board);
             var solutions = boggleSolver.Solutions().OrderByDescending(x => x.Length);
             Console.WriteLine(board.ToString());
-            Console.WriteLine(String.Join(Environment.NewLine, solutions));
+            Console.WriteLine(string.Join(Environment.NewLine, solutions));
         }
 
         [Test]
         public void NoBacktrackingOverUsedLetters()
         {
             // backtracking would find the word 'tot'
-            var board = new BoggleBoard(2, new CharactersFromStringGenerator("tozz"));
+            var board = new BoggleBoard("tozz".ToList());
             var boggleSolver = new BoggleBoardSolver(board);
             var solutions = boggleSolver.Solutions();
             CollectionAssert.AreEquivalent(new[] { "to"}, solutions, "Wrong words found in search");
@@ -103,7 +103,7 @@ namespace Boggle
             //
             // backtracking would find the word 'unsure'. This is impossible because 'unsure' contains two 'u's
             // and the input data only contains one
-            var board = new BoggleBoard(4, new CharactersFromStringGenerator("xhakbfncerqnbnus"));
+            var board = new BoggleBoard("xhakbfncerqnbnus".ToList());
             var boggleSolver = new BoggleBoardSolver(board);
             var solutions = boggleSolver.Solutions();
             CollectionAssert.DoesNotContain(solutions, "unsure", "Wrong words found in search");

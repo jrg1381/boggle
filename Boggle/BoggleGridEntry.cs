@@ -2,6 +2,7 @@ namespace Boggle
 {
     internal struct BoggleGridEntry
     {
+        internal static BoggleGridEntry EndOfWord => new BoggleGridEntry(0,0);
         internal int X { get; }
         internal int Y { get; }
         internal char Letter { get; }

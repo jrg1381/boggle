@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -58,6 +59,43 @@ namespace Boggle
             m_Board = new char[m_BoardSize, m_BoardSize];
 
             PopulateBoard();
+        }
+
+        public BoggleBoard(IList<char> letters) : this(IntegerSquareRoot(letters.Count), new CharGenerator(letters) )
+        {
+        }
+
+        private static int IntegerSquareRoot(int number)
+        {
+            var answer = Math.Sqrt(number);
+            if (!IsCloseEnoughToInteger(answer))
+                throw new ArgumentOutOfRangeException(nameof(number), "Not a square number of letters");
+
+            return (int) answer;
+        }
+
+        private static bool IsCloseEnoughToInteger(double answer)
+        {
+            return Math.Abs(Math.Floor(answer) - Math.Ceiling(answer)) <= double.Epsilon;
+        }
+
+        class CharGenerator : ICharacterGenerator
+        {
+            private readonly IList<char> m_Data;
+            private int m_Position = 0;
+
+            internal CharGenerator(IList<char> data)
+            {
+                m_Data = data;
+            }
+
+            public char Next()
+            {
+                if (m_Position >= m_Data.Count)
+                    throw new InvalidOperationException();
+
+                return m_Data[m_Position++];
+            }
         }
 
         public override string ToString()

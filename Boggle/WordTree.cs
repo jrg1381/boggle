@@ -26,14 +26,12 @@ namespace Boggle
     internal class WordTree
     {
         private const string c_DefaultWordListFile = @"C:\Users\james.gilmore\documents\visual studio 2015\Projects\Boggle\Boggle\linuxwords.txt";
-        private readonly HashSet<string> m_ValidWords;
         private readonly WordTreeNode m_RootNode;
         private static readonly ISimpleSet<char> s_EmptySet = new EmptySet();
 
         private WordTree()
         {
             m_RootNode = new WordTreeNode();
-            m_ValidWords = new HashSet<string>();
         }
 
         internal static WordTree InitializeFrom(IEnumerable<string> words)
@@ -52,7 +50,6 @@ namespace Boggle
         {
             foreach (var word in words)
             {
-                m_ValidWords.Add(word);
                 m_RootNode.AddLettersBelowNode(word);
             }
         }
@@ -72,11 +69,6 @@ namespace Boggle
             }
 
             return currentNode.Children;
-        }
-
-        public bool IsWord(string word)
-        {
-            return m_ValidWords.Contains(word);
         }
     }
 }

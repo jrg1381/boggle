@@ -54,7 +54,7 @@ namespace Boggle
                 currentNode = currentNode.AddLetterToChildren(letter);
             }
 
-            currentNode.Winner = true;
+            currentNode.AddLetterToChildren('\0');
         }
 
         internal bool Winner { get; set; }
