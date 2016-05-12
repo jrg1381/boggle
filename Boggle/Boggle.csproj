@@ -49,9 +49,11 @@
     <Compile Include="BoggleGridEntry.cs" />
     <Compile Include="CharactersFromStringGenerator.cs" />
     <Compile Include="ICharacterGenerator.cs" />
+    <Compile Include="IntegerSquareRoot.cs" />
     <Compile Include="ISimpleSet.cs" />
     <Compile Include="MockRandomCharacterGenerator.cs" />
     <Compile Include="RandomCharacterGenerator.cs" />
+    <Compile Include="SetWrapper.cs" />
     <Compile Include="Tests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="WordTree.cs" />

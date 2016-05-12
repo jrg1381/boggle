@@ -1,35 +1,10 @@
-using System.Collections;
 using System.Collections.Generic;
 
 namespace Boggle
 {
     internal class WordTreeNode
     {
-        class SetWrapper : ISimpleSet<char>
-        {
-            private readonly Dictionary<char, WordTreeNode> m_SourceDictionary;
-
-            internal SetWrapper(Dictionary<char, WordTreeNode> sourceDictionary)
-            {
-                m_SourceDictionary = sourceDictionary;
-            }
-
-            public bool Contains(char letter)
-            {
-                return m_SourceDictionary.ContainsKey(letter);
-            }
-
-            public IEnumerator<char> GetEnumerator()
-            {
-                return m_SourceDictionary.Keys.GetEnumerator();
-            }
-
-            IEnumerator IEnumerable.GetEnumerator()
-            {
-                return m_SourceDictionary.Keys.GetEnumerator();
-            }
-        }
-
+        internal const char EndOfWord = '\0';
         private readonly Dictionary<char, WordTreeNode> m_ChildNodes;
 
         internal WordTreeNode()
@@ -54,7 +29,7 @@ namespace Boggle
                 currentNode = currentNode.AddLetterToChildren(letter);
             }
 
-            currentNode.AddLetterToChildren('\0');
+            currentNode.AddLetterToChildren(EndOfWord);
         }
 
         private WordTreeNode AddLetterToChildren(char letter)

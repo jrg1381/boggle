@@ -3,7 +3,7 @@
     internal class CharactersFromStringGenerator : ICharacterGenerator
     {
         protected char[] Alphabet;
-        private int m_Pos = 0;
+        private int m_Pos;
 
         protected CharactersFromStringGenerator()
         { }

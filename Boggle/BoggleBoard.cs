@@ -23,6 +23,8 @@ namespace Boggle
                     yield return new BoggleGridEntry(x + dx, y + dy, GetEntry(x + dx, y + dy));
                 }
             }
+            
+            yield return BoggleGridEntry.EndOfWord;
         }
 
         private bool SquareIsOutOfRange(int dx, int dy, int x, int y)
@@ -61,28 +63,14 @@ namespace Boggle
             PopulateBoard();
         }
 
-        public BoggleBoard(IList<char> letters) : this(IntegerSquareRoot(letters.Count), new CharGenerator(letters) )
+        public BoggleBoard(IList<char> letters) : this(IntegerSquareRoot.Sqrt(letters.Count), new CharGenerator(letters) )
         {
         }
 
-        private static int IntegerSquareRoot(int number)
-        {
-            var answer = Math.Sqrt(number);
-            if (!IsCloseEnoughToInteger(answer))
-                throw new ArgumentOutOfRangeException(nameof(number), "Not a square number of letters");
-
-            return (int) answer;
-        }
-
-        private static bool IsCloseEnoughToInteger(double answer)
-        {
-            return Math.Abs(Math.Floor(answer) - Math.Ceiling(answer)) <= double.Epsilon;
-        }
-
-        class CharGenerator : ICharacterGenerator
+        private class CharGenerator : ICharacterGenerator
         {
             private readonly IList<char> m_Data;
-            private int m_Position = 0;
+            private int m_Position;
 
             internal CharGenerator(IList<char> data)
             {

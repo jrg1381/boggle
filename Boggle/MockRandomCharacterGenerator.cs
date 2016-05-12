@@ -3,7 +3,7 @@ namespace Boggle
     internal class MockRandomCharacterGenerator : ICharacterGenerator
     {
         protected char[] Alphabet;
-        private int m_Pos = 0;
+        private int m_Pos;
 
         internal MockRandomCharacterGenerator()
         {

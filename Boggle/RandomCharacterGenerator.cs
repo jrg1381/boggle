@@ -5,7 +5,7 @@ namespace Boggle
     internal class RandomCharacterGenerator : ICharacterGenerator
     {
         private const string c_LetterSource = "abcdefghijklmnopqrstuvwxyzaaeeiioouu";
-        readonly Random m_Random = new Random();
+        private readonly Random m_Random = new Random();
 
         public char Next()
         {

@@ -5,7 +5,7 @@ using System.Linq;
 
 namespace Boggle
 {
-    class EmptySet : ISimpleSet<char>
+    internal class EmptySet : ISimpleSet<char>
     {
         public bool Contains(char letter)
         {

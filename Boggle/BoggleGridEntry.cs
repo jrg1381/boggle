@@ -7,7 +7,7 @@ namespace Boggle
         internal int Y { get; }
         internal char Letter { get; }
 
-        internal BoggleGridEntry(int x, int y, char letter = '\0')
+        internal BoggleGridEntry(int x, int y, char letter = WordTreeNode.EndOfWord)
         {
             X = x;
             Y = y;

@@ -19,7 +19,7 @@ namespace Boggle
         public void WordTreeWithMaximalLengthCommonPrefix()
         {
             var wordTree = WordTree.InitializeFrom(new[] { "mope","mop" });
-            CollectionAssert.AreEquivalent(new[] { '\0', 'e', }, wordTree.ValidNextLettersForPrefix("mop"));
+            CollectionAssert.AreEquivalent(new[] { WordTreeNode.EndOfWord, 'e', }, wordTree.ValidNextLettersForPrefix("mop"));
         }
 
         [Test]
@@ -31,7 +31,8 @@ namespace Boggle
             {
                 new BoggleGridEntry(0, 1, 'b'),
                 new BoggleGridEntry(1, 0, 'e'),
-                new BoggleGridEntry(1, 1, 'f')
+                new BoggleGridEntry(1, 1, 'f'),
+                BoggleGridEntry.EndOfWord, 
             }, neighbours);
         }
 
@@ -44,7 +45,8 @@ namespace Boggle
             {
                 new BoggleGridEntry(2, 2, 'k'),
                 new BoggleGridEntry(2, 3, 'l'),
-                new BoggleGridEntry(3, 2, 'o')
+                new BoggleGridEntry(3, 2, 'o'),
+                BoggleGridEntry.EndOfWord, 
             }, neighbours);
         }
 
@@ -63,6 +65,7 @@ namespace Boggle
                  new BoggleGridEntry(3, 1, 'n'),
                  new BoggleGridEntry(3, 2, 'o'),
                  new BoggleGridEntry(3, 3, 'p'),
+                 BoggleGridEntry.EndOfWord, 
             }, neighbours);
         }
 
@@ -70,7 +73,22 @@ namespace Boggle
         public void InitializeWordTreeFromRealDictionary()
         {
             var wordTree = WordTree.InitializeFromDefaultWordList();
-            CollectionAssert.AreEquivalent(new[] { '\0', 's' }, wordTree.ValidNextLettersForPrefix("thing"));
+            CollectionAssert.AreEquivalent(new[] { WordTreeNode.EndOfWord, 's' }, wordTree.ValidNextLettersForPrefix("thing"));
+        }
+
+        [TestCase(4, 2, true)]
+        [TestCase(5, 0, false)]
+        [TestCase(225, 15, true)]
+        public void IntegerSquareRootGivesCorrectAnswer(int input, int sqrtInput, bool expected)
+        {
+            if (expected)
+            {
+                Assert.AreEqual(sqrtInput, IntegerSquareRoot.Sqrt(input));
+            }
+            else
+            {
+                Assert.Throws<ArgumentOutOfRangeException>(() => IntegerSquareRoot.Sqrt(input));
+            }
         }
 
         [Test]

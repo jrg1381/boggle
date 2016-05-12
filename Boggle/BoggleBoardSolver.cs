@@ -8,7 +8,6 @@ namespace Boggle
         private List<string> m_WordsFound;
         private readonly WordTree m_WordTree;
         private readonly BoggleBoard m_BoggleBoard;
-        private static readonly BoggleGridEntry[] s_EndOfWord = { BoggleGridEntry.EndOfWord };
 
         public BoggleBoardSolver(IList<char> letters) : this(new BoggleBoard(letters))
         {
@@ -22,7 +21,7 @@ namespace Boggle
             m_BoggleBoard = boggleBoard ?? new BoggleBoard();
         }
 
-        internal IEnumerable<string> Solutions()
+        public IEnumerable<string> Solutions()
         {
             if (m_WordsFound != null)
                 return m_WordsFound;
@@ -46,7 +45,6 @@ namespace Boggle
 
             var possiblePaths =
                 m_BoggleBoard.NeighboursOf(gridEntry)
-                    .Concat(s_EndOfWord)
                     .Where(entry => validNextLetters.Contains(entry.Letter) && !squaresVisited.Contains(entry))
                     .ToArray();
 
