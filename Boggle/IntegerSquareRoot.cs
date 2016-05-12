@@ -8,7 +8,7 @@ namespace Boggle
         {
             var answer = Math.Sqrt(number);
             if (!IsCloseEnoughToInteger(answer))
-                throw new ArgumentOutOfRangeException(nameof(number), "Not a square number of letters");
+                throw new ArgumentOutOfRangeException(nameof(number), "Not a square number");
 
             return (int) answer;
         }
