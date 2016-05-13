@@ -52,6 +52,7 @@
     <Compile Include="IntegerSquareRoot.cs" />
     <Compile Include="ISimpleSet.cs" />
     <Compile Include="MockRandomCharacterGenerator.cs" />
+    <Compile Include="OrderedSet.cs" />
     <Compile Include="RandomCharacterGenerator.cs" />
     <Compile Include="SetWrapper.cs" />
     <Compile Include="Tests.cs" />

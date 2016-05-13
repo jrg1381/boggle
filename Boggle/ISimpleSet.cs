@@ -4,6 +4,6 @@ namespace Boggle
 {
     internal interface ISimpleSet<T> : IEnumerable<T>
     {
-        bool Contains(T letter);
+        bool Contains(T item);
     }
 }

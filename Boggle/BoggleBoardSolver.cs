@@ -38,17 +38,12 @@ namespace Boggle
 
         private void Solve(BoggleGridEntry gridEntry, 
             string wordSoFar, 
-            HashSet<BoggleGridEntry> squaresVisited = null,
-            Stack<BoggleGridEntry> squaresVisitedInOrder = null)
+            OrderedSet<BoggleGridEntry> squaresVisited = null)
         {
             if (squaresVisited == null)
             {
-                squaresVisited = new HashSet<BoggleGridEntry> {gridEntry};
-            }
-            if (squaresVisitedInOrder == null)
-            {
-                squaresVisitedInOrder = new Stack<BoggleGridEntry>();
-                squaresVisitedInOrder.Push(gridEntry);
+                squaresVisited = new OrderedSet<BoggleGridEntry>();
+                squaresVisited.Push(gridEntry);
             }
 
             var validNextLetters = m_WordTree.ValidNextLettersForPrefix(wordSoFar);
@@ -63,25 +58,20 @@ namespace Boggle
                 if (Equals(nextStep, BoggleGridEntry.EndOfWord))
                 {
                     m_WordsFound[wordSoFar] = new List<BoggleGridEntry>();
-                    m_WordsFound[wordSoFar] = squaresVisitedInOrder.ToList();
+                    m_WordsFound[wordSoFar] = squaresVisited.ToList();
                     m_WordsFound[wordSoFar].Reverse();
                 }
                 else
                 {
-                    squaresVisited.Add(nextStep);
-                    squaresVisitedInOrder.Push(nextStep);
+                    squaresVisited.Push(nextStep);
                 }
 
-                Solve(nextStep, wordSoFar + nextStep.Letter, squaresVisited, squaresVisitedInOrder);
+                Solve(nextStep, wordSoFar + nextStep.Letter, squaresVisited);
 
                 if (Equals(nextStep, BoggleGridEntry.EndOfWord))
                     continue;
-                squaresVisitedInOrder.Pop();
-            }
 
-            foreach (var visitedSquare in possiblePaths)
-            {
-                squaresVisited.Remove(visitedSquare);
+                squaresVisited.Pop();
             }
         }
     }

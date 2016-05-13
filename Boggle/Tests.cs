@@ -141,7 +141,16 @@ namespace Boggle
             var board = new BoggleBoard("xhakbfncerqnbnus".ToList());
             var boggleSolver = new BoggleBoardSolver(board);
             var solutions = boggleSolver.Solutions();
-            CollectionAssert.DoesNotContain(solutions, "unsure", "Wrong words found in search");
+            CollectionAssert.DoesNotContain(solutions.Keys, "unsure", "Wrong words found in search");
+        }
+
+        [Test]
+        public void ExampleGame()
+        {
+            var board = new BoggleBoard("ueemiolnpummtltorlqwsypee".ToList());
+            var boggleSolver = new BoggleBoardSolver(board);
+            var solutions = boggleSolver.Solutions();
+            CollectionAssert.Contains(solutions.Keys, "leprosy", "Wrong words found in search");
         }
 
     }
