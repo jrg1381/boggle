@@ -93,7 +93,7 @@ namespace Boggle
             {
                 for (var j = 0; j < m_BoardSize; j++)
                 {
-                    builder.Append(m_Board[i, j]);
+                    builder.Append(m_Board[j, i]);
                 }
                 builder.AppendLine();
             }

@@ -5,7 +5,7 @@ namespace Boggle
 {
     public class BoggleBoardSolver
     {
-        private List<string> m_WordsFound;
+        private Dictionary<string, List<BoggleGridEntry>> m_WordsFound;
         private readonly WordTree m_WordTree;
         private readonly BoggleBoard m_BoggleBoard;
 
@@ -21,12 +21,12 @@ namespace Boggle
             m_BoggleBoard = boggleBoard ?? new BoggleBoard();
         }
 
-        public IEnumerable<string> Solutions()
+        public Dictionary<string, List<BoggleGridEntry>> Solutions()
         {
             if (m_WordsFound != null)
                 return m_WordsFound;
 
-            m_WordsFound = new List<string>();
+            m_WordsFound = new Dictionary<string, List<BoggleGridEntry>>();
 
             foreach (var entry in m_BoggleBoard.Entries())
             {
@@ -36,10 +36,20 @@ namespace Boggle
             return m_WordsFound;
         }
 
-        private void Solve(BoggleGridEntry gridEntry, string wordSoFar, HashSet<BoggleGridEntry> squaresVisited = null)
+        private void Solve(BoggleGridEntry gridEntry, 
+            string wordSoFar, 
+            HashSet<BoggleGridEntry> squaresVisited = null,
+            Stack<BoggleGridEntry> squaresVisitedInOrder = null)
         {
-            if(squaresVisited == null)
-                squaresVisited = new HashSet<BoggleGridEntry>();
+            if (squaresVisited == null)
+            {
+                squaresVisited = new HashSet<BoggleGridEntry> {gridEntry};
+            }
+            if (squaresVisitedInOrder == null)
+            {
+                squaresVisitedInOrder = new Stack<BoggleGridEntry>();
+                squaresVisitedInOrder.Push(gridEntry);
+            }
 
             var validNextLetters = m_WordTree.ValidNextLettersForPrefix(wordSoFar);
 
@@ -52,14 +62,21 @@ namespace Boggle
             {
                 if (Equals(nextStep, BoggleGridEntry.EndOfWord))
                 {
-                    m_WordsFound.Add(wordSoFar);
+                    m_WordsFound[wordSoFar] = new List<BoggleGridEntry>();
+                    m_WordsFound[wordSoFar] = squaresVisitedInOrder.ToList();
+                    m_WordsFound[wordSoFar].Reverse();
                 }
                 else
                 {
-                    squaresVisited.Add(gridEntry);
+                    squaresVisited.Add(nextStep);
+                    squaresVisitedInOrder.Push(nextStep);
                 }
 
-                Solve(nextStep, wordSoFar + nextStep.Letter, squaresVisited);
+                Solve(nextStep, wordSoFar + nextStep.Letter, squaresVisited, squaresVisitedInOrder);
+
+                if (Equals(nextStep, BoggleGridEntry.EndOfWord))
+                    continue;
+                squaresVisitedInOrder.Pop();
             }
 
             foreach (var visitedSquare in possiblePaths)

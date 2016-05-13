@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using NUnit.Framework;
 
 namespace Boggle
@@ -94,11 +96,26 @@ namespace Boggle
         [Test]
         public void Solve()
         {
-            var board = new BoggleBoard(12);
+            var board = new BoggleBoard(5);
             var boggleSolver = new BoggleBoardSolver(board);
-            var solutions = boggleSolver.Solutions().OrderByDescending(x => x.Length);
+            var solutions = boggleSolver.Solutions().OrderByDescending(x => x.Key.Length);
             Console.WriteLine(board.ToString());
-            Console.WriteLine(string.Join(Environment.NewLine, solutions));
+            foreach (var solution in solutions)
+            {
+                Console.WriteLine(SolutionToString(solution));
+            }
+        }
+
+        private string SolutionToString(KeyValuePair<string, List<BoggleGridEntry>> solution)
+        {
+            var stringBuilder = new StringBuilder();
+            stringBuilder.Append($"{solution.Key} ");
+            foreach (var gridEntry in solution.Value)
+            {
+                stringBuilder.Append($"({gridEntry.X},{gridEntry.Y} = {gridEntry.Letter}) ");
+            }
+
+            return stringBuilder.ToString();
         }
 
         [Test]
@@ -108,7 +125,7 @@ namespace Boggle
             var board = new BoggleBoard("tozz".ToList());
             var boggleSolver = new BoggleBoardSolver(board);
             var solutions = boggleSolver.Solutions();
-            CollectionAssert.AreEquivalent(new[] { "to"}, solutions, "Wrong words found in search");
+            CollectionAssert.AreEquivalent(new[] { "to"}, solutions.Keys, "Wrong words found in search");
         }
 
         [Test]
