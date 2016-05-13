@@ -1,51 +1,50 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 
 namespace Boggle
 {
-    internal class OrderedSet<T> : ISimpleSet<T>
+    internal class OrderedSet
     {
-        private readonly HashSet<T> m_Set;
-        private readonly Stack<T> m_Stack;
+        private readonly HashSet<BoggleGridEntry> m_Set;
+        private readonly Stack<BoggleGridEntry> m_Stack;
 
-        internal List<T> ToList()
+        internal List<BoggleGridEntry> ToList()
         {
             return m_Stack.ToList();
         }
 
-        internal OrderedSet()
+        public override string ToString()
         {
-            m_Set = new HashSet<T>();
-            m_Stack = new Stack<T>();
+            var stringBuilder = new StringBuilder();
+            foreach (var entry in m_Stack.Reverse())
+                stringBuilder.Append(entry.Letter);
+            return stringBuilder.ToString();
         }
 
-        internal T Pop()
+        internal OrderedSet()
+        {
+            m_Set = new HashSet<BoggleGridEntry>();
+            m_Stack = new Stack<BoggleGridEntry>();
+        }
+
+        internal BoggleGridEntry Pop()
         {
             var item =  m_Stack.Pop();
             m_Set.Remove(item);
             return item;
         }
 
-        internal void Push(T item)
+        internal void Push(BoggleGridEntry item)
         {
             m_Set.Add(item);
             m_Stack.Push(item);
         }
 
-        public bool Contains(T item)
+        public bool Contains(BoggleGridEntry item)
         {
             return m_Set.Contains(item);
-        }
-
-        public IEnumerator<T> GetEnumerator()
-        {
-            return m_Set.GetEnumerator();
-        }
-
-        IEnumerator IEnumerable.GetEnumerator()
-        {
-            return ((IEnumerable) m_Set).GetEnumerator();
         }
     }
 }
