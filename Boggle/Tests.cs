@@ -106,7 +106,7 @@ namespace Boggle
             }
         }
 
-        private string SolutionToString(KeyValuePair<string, List<BoggleGridEntry>> solution)
+        private static string SolutionToString(KeyValuePair<string, List<BoggleGridEntry>> solution)
         {
             var stringBuilder = new StringBuilder();
             stringBuilder.Append($"{solution.Key} ");
@@ -151,6 +151,17 @@ namespace Boggle
             var boggleSolver = new BoggleBoardSolver(board);
             var solutions = boggleSolver.Solutions();
             CollectionAssert.Contains(solutions.Keys, "leprosy", "Wrong words found in search");
+            CollectionAssert.AreEqual(new[]
+            {
+                new BoggleGridEntry(3,2,'l'),
+                new BoggleGridEntry(4,3,'e'),
+                new BoggleGridEntry(4,2,'p'),
+                new BoggleGridEntry(3,1,'r'),
+                new BoggleGridEntry(3,0,'o'),
+                new BoggleGridEntry(4,0,'s'),
+                new BoggleGridEntry(4,1,'y')
+            },
+            solutions["leprosy"]);
         }
 
     }

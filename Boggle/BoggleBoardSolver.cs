@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -37,22 +36,21 @@ namespace Boggle
             return m_WordsFound;
         }
 
-        private void Solve(BoggleGridEntry gridEntry, 
-            OrderedSet squaresVisited = null)
+        private void Solve(BoggleGridEntry gridEntry, OrderedSetOfLetters squaresVisited = null)
         {
+            // First time through, initialize
             if (squaresVisited == null)
             {
-                squaresVisited = new OrderedSet();
+                squaresVisited = new OrderedSetOfLetters();
                 squaresVisited.Push(gridEntry);
             }
 
-            var wordSoFar = squaresVisited.ToString();
+            var wordSoFar = squaresVisited.Word();
             var validNextLetters = m_WordTree.ValidNextLettersForPrefix(wordSoFar);
 
             var possiblePaths =
                 m_BoggleBoard.NeighboursOf(gridEntry)
-                    .Where(entry => validNextLetters.Contains(entry.Letter) && !squaresVisited.Contains(entry))
-                    .ToArray();
+                    .Where(entry => validNextLetters.Contains(entry.Letter) && !squaresVisited.Contains(entry));
 
             foreach (var nextStep in possiblePaths)
             {
@@ -60,7 +58,6 @@ namespace Boggle
                 {
                     m_WordsFound[wordSoFar] = new List<BoggleGridEntry>();
                     m_WordsFound[wordSoFar] = squaresVisited.ToList();
-                    m_WordsFound[wordSoFar].Reverse();
                     continue;
                 }
 
