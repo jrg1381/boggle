@@ -48,6 +48,7 @@
     <Compile Include="BoggleBoardSolver.cs" />
     <Compile Include="BoggleGridEntry.cs" />
     <Compile Include="CharactersFromStringGenerator.cs" />
+    <Compile Include="EmptySet.cs" />
     <Compile Include="ICharacterGenerator.cs" />
     <Compile Include="IntegerSquareRoot.cs" />
     <Compile Include="ISimpleSet.cs" />

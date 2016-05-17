@@ -1,31 +1,12 @@
-using System.Collections;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
+using System.Reflection;
 
 namespace Boggle
 {
-    internal class EmptySet : ISimpleSet<char>
-    {
-        public bool Contains(char letter)
-        {
-            return false;
-        }
-
-        public IEnumerator<char> GetEnumerator()
-        {
-            return Enumerable.Empty<char>().GetEnumerator();
-        }
-
-        IEnumerator IEnumerable.GetEnumerator()
-        {
-            return Enumerable.Empty<char>().GetEnumerator();
-        }
-    }
-
     internal class WordTree
     {
-        private const string c_DefaultWordListFile = @"C:\Users\james.gilmore\documents\visual studio 2015\Projects\Boggle\Boggle\linuxwords.txt";
+        private const string c_DefaultWordListFile = @"linuxwords.txt";
         private readonly WordTreeNode m_RootNode;
         private static readonly ISimpleSet<char> s_EmptySet = new EmptySet();
 
@@ -43,7 +24,9 @@ namespace Boggle
 
         internal static WordTree InitializeFromDefaultWordList()
         {
-            return InitializeFrom(File.ReadLines(c_DefaultWordListFile));
+            var directoryName = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+            var defaultWordList = Path.Combine(directoryName, c_DefaultWordListFile);
+            return InitializeFrom(File.ReadLines(defaultWordList));
         }
 
         private void Initialize(IEnumerable<string> words)
