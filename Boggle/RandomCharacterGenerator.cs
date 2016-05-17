@@ -1,4 +1,5 @@
 using System;
+using Boggle.Interfaces;
 
 namespace Boggle
 {

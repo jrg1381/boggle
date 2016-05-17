@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace Boggle
+namespace Boggle.Interfaces
 {
     internal interface ISimpleSet<T> : IEnumerable<T>
     {

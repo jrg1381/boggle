@@ -1,3 +1,5 @@
+using Boggle.Interfaces;
+
 namespace Boggle
 {
     internal class MockRandomCharacterGenerator : ICharacterGenerator

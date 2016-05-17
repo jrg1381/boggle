@@ -1,4 +1,4 @@
-namespace Boggle
+namespace Boggle.Interfaces
 {
     internal interface ICharacterGenerator
     {

@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Boggle.Interfaces;
 
 namespace Boggle
 {
