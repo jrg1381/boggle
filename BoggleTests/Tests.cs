@@ -150,19 +150,31 @@ namespace Boggle
             var board = new BoggleBoard("ueemiolnpummtltorlqwsypee".ToList());
             var boggleSolver = new BoggleBoardSolver(board);
             var solutions = boggleSolver.Solutions();
+            VerifyLeprosyIsInSolutions(solutions);
+        }
+
+        private static void VerifyLeprosyIsInSolutions(Dictionary<string, List<BoggleGridEntry>> solutions)
+        {
             CollectionAssert.Contains(solutions.Keys, "leprosy", "Wrong words found in search");
             CollectionAssert.AreEqual(new[]
             {
-                new BoggleGridEntry(3,2,'l'),
-                new BoggleGridEntry(4,3,'e'),
-                new BoggleGridEntry(4,2,'p'),
-                new BoggleGridEntry(3,1,'r'),
-                new BoggleGridEntry(3,0,'o'),
-                new BoggleGridEntry(4,0,'s'),
-                new BoggleGridEntry(4,1,'y')
+                new BoggleGridEntry(3, 2, 'l'),
+                new BoggleGridEntry(4, 3, 'e'),
+                new BoggleGridEntry(4, 2, 'p'),
+                new BoggleGridEntry(3, 1, 'r'),
+                new BoggleGridEntry(3, 0, 'o'),
+                new BoggleGridEntry(4, 0, 's'),
+                new BoggleGridEntry(4, 1, 'y')
             },
-            solutions["leprosy"]);
+                solutions["leprosy"]);
         }
 
+        [Test]
+        public void ExampleGameWithPublicConstructor()
+        {
+            var boggleSolver = new BoggleBoardSolver("ueemiolnpummtltorlqwsypee".ToList());
+            var solutions = boggleSolver.Solutions();
+            VerifyLeprosyIsInSolutions(solutions);
+        }
     }
 }
