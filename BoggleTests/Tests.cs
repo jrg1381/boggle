@@ -25,6 +25,26 @@ namespace Boggle
         }
 
         [Test]
+        public void OneByOneBoardWorks()
+        {
+            var wordTree = WordTree.InitializeFrom(new[] { "a" });
+            var board = new BoggleBoard(new [] { 'a' });
+            var boggleSolver = new BoggleBoardSolver(board, wordTree);
+            var solutions = boggleSolver.Solutions();
+            CollectionAssert.AreEquivalent(new [] { "a"}, solutions.Keys, "Expected one word to be found");
+        }
+
+        [Test]
+        public void BoardWithNoSolutionsWorks()
+        {
+            var wordTree = WordTree.InitializeFrom(new[] { "abz" });
+            var board = new BoggleBoard(new [] { 'a','b','c','d' });
+            var boggleSolver = new BoggleBoardSolver(board, wordTree);
+            var solutions = boggleSolver.Solutions();
+            CollectionAssert.IsEmpty(solutions.Keys, "Expected no words to be found");
+        }
+
+        [Test]
         public void NeighboursOfTopLeftAreCorrect()
         {
             var boggleBoard = new BoggleBoard(4, new MockRandomCharacterGenerator());
